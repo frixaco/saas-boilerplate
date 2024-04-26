@@ -1,71 +1,41 @@
 package main
 
 import (
-	"database/sql"
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
 
-	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
+	"github.com/labstack/echo"
 )
 
-// SampleData structure for sample route
-type SampleData struct {
+type DefaultResponse struct {
+	Success bool   `json:"success"`
 	Message string `json:"message"`
 }
 
-var db *sql.DB
-
-func healthcheck(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var sampleData SampleData
-
-	// err := db.QueryRow("SELECT id, name FROM user WHERE id = $1", "1").Scan(&sampleData.ID, &sampleData.Name)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
-	sampleData = SampleData{
+func checkhealth(c echo.Context) error {
+	type Message struct {
+		Message string `json:"message"`
+	}
+	message := &Message{
 		Message: "Hello World",
 	}
-
-	json.NewEncoder(w).Encode(sampleData)
+	c.JSONPretty(http.StatusOK, message, "  ")
+	return c.String(http.StatusOK, "Hello, World!")
 }
 
 func main() {
-	var err error
-
 	godotenv.Load()
 
-	DATABASE_URL := os.Getenv("DATABASE_URL")
-	PORT, err := strconv.Atoi(os.Getenv("PORT"))
+	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
-		PORT = 4000
+		port = 4000
 	}
 
-	db, err = sql.Open("postgres", DATABASE_URL)
-	if err != nil {
-		log.Fatal("Error connecting to the database: ", err)
-	}
-	defer db.Close()
+	e := echo.New()
+	e.GET("/checkhealth", checkhealth)
 
-	err = db.Ping()
-	if err != nil {
-		log.Fatal("Database connection error: ", err)
-	}
-
-	router := mux.NewRouter()
-
-	router.HandleFunc("/healthcheck", healthcheck).Methods("GET")
-
-	log.Printf("Server starting on port %d...", PORT)
-	err = http.ListenAndServe(fmt.Sprintf(":%d", PORT), router)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
 }
