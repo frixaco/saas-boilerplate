@@ -1,5 +1,6 @@
 TODO:
 
+- [ ] update main.go
 - [ ] add more eslint rules
 - [ ] add eslint-plugin-drizzle
 - [ ] add other eslint plugins
