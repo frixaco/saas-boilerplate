@@ -1,16 +1,16 @@
-import { withSentryConfig } from "@sentry/nextjs";
-import { fileURLToPath } from "node:url";
-import createJiti from "jiti";
-const jiti = createJiti(fileURLToPath(import.meta.url));
+import { withSentryConfig } from "@sentry/nextjs"
+import { fileURLToPath } from "node:url"
+import createJiti from "jiti"
+const jiti = createJiti(fileURLToPath(import.meta.url))
 
 // Import env here to validate during build. Using jiti we can import .ts files :)
-jiti("./src/env");
+jiti("./src/env")
 
-import bundleAnalyzer from "@next/bundle-analyzer";
+import bundleAnalyzer from "@next/bundle-analyzer"
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
-});
+})
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -34,11 +34,11 @@ const nextConfig = {
         source: "/ingest/:path*",
         destination: "https://us.i.posthog.com/:path*",
       },
-    ];
+    ]
   },
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
-};
+}
 
 export default withBundleAnalyzer(
   withSentryConfig(nextConfig, {
@@ -70,5 +70,5 @@ export default withBundleAnalyzer(
 
     // Automatically tree-shake Sentry logger statements to reduce bundle size
     disableLogger: true,
-  }),
-);
+  })
+)

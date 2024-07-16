@@ -1,10 +1,10 @@
+# Setup
+
+1. Populate `.env` files in `apps/api-go`, `apps/web` with your own values
+2. There's not much code. So I recommend to quickly review package.json files to see if you are fine with the libraries used. Then skim through the code and see if you want to change anything
+
 TODO:
 
-- [ ] update main.go
-- [ ] add more eslint rules
-- [ ] add eslint-plugin-drizzle
-- [ ] add other eslint plugins
-- [ ] add prettier tailwind plugin
-- [ ] add RQ or implement patterns to allow not using RQ
+- [ ] better README
+- [ ] research ways to reduce usage of React Query and rely more on server actions
 - [ ] more robust error handling in web: https://nextjs.org/learn/dashboard-app/error-handling
-- [ ] full setup instructions for api-go, api-ts, web

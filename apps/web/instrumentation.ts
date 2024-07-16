@@ -1,5 +1,5 @@
-import { env } from "@/env";
-import * as Sentry from "@sentry/nextjs";
+import { env } from "@/env"
+import * as Sentry from "@sentry/nextjs"
 
 export function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
@@ -9,7 +9,7 @@ export function register() {
       tracesSampleRate: 1,
       debug: false,
       // Your Node.js Sentry configuration...
-    });
+    })
   }
 
   // This is your Sentry.init call from `sentry.edge.config.js|ts`
@@ -18,6 +18,6 @@ export function register() {
       dsn: env.SENTRY_DSN,
       tracesSampleRate: 1,
       debug: false,
-    });
+    })
   }
 }

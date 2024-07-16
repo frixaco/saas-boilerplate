@@ -1,5 +1,5 @@
-import { env } from "@/env";
-import type { Config } from "drizzle-kit";
+import { env } from "@/env"
+import type { Config } from "drizzle-kit"
 
 export default {
   schema: "./src/server/db/schema.ts",
@@ -12,4 +12,4 @@ export default {
   strict: true,
   // TODO: update default prefix for tables if needed
   tablesFilter: ["my_*"],
-} satisfies Config;
+} satisfies Config
