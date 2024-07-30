@@ -1,9 +1,13 @@
-import { Button } from "@/components/ui/button"
+import RQWithServerActions from "./_components/react-query-with-server-actions"
+import Link from "next/link"
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
-      <Button>Click me</Button>
+      <RQWithServerActions />
+      <Link className="underline" href="/sentry-example-page">
+        Go to Sentry Test Page
+      </Link>
     </main>
   )
 }

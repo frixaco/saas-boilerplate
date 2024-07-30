@@ -8,8 +8,9 @@ import { Toaster } from "@/components/ui/sonner"
 import Navbar from "./_components/navbar"
 
 import { ClerkProvider } from "@clerk/nextjs"
-import { CSPostHogProvider } from "./_providers/analytics"
+import { ClientPostHogProvider } from "./_providers/analytics"
 import { NextThemeProvider } from "./_providers/next-theme"
+import { ReactQueryProvider } from "./_providers/react-query"
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -28,8 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <CSPostHogProvider>
-        <html lang="en">
+      <html lang="en" suppressHydrationWarning>
+        <ClientPostHogProvider>
           <body
             className={cn(
               "min-h-screen bg-background font-sans antialiased",
@@ -37,13 +38,15 @@ export default function RootLayout({
             )}
           >
             <NextThemeProvider>
-              <Navbar />
-              {children}
-              <Toaster />
+              <ReactQueryProvider>
+                <Navbar />
+                {children}
+                <Toaster />
+              </ReactQueryProvider>
             </NextThemeProvider>
           </body>
-        </html>
-      </CSPostHogProvider>
+        </ClientPostHogProvider>
+      </html>
     </ClerkProvider>
   )
 }
